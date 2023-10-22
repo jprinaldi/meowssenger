@@ -1,7 +1,11 @@
 <script>
 	import '../app.postcss';
-	import { AppBar } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 </script>
 
-<AppBar>Meowssenger</AppBar>
-<slot />
+<AppShell>
+	<svelte:fragment slot="header">
+		<AppBar>Meowssenger</AppBar>
+	</svelte:fragment>
+	<slot />
+</AppShell>
