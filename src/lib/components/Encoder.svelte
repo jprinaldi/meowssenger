@@ -76,8 +76,8 @@
 		class="flex flex-col items-center space-y-4 card variant-ghost-tertiary"
 		class:invisible={!encoded}
 	>
-		<header class="card-header">
-			<h2 class="h2 text-center">Your message has been encoded within the image below!</h2>
+		<header class="card-header text-center text-xl">
+			Your message has been encoded within the image below!
 		</header>
 		<section class="p-4">
 			<canvas bind:this={canvas} width={canvasWidth} height={canvasHeight} />
