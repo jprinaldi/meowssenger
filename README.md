@@ -1,38 +1,43 @@
-# create-svelte
+# Meowssenger
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+#### Video Demo: <URL HERE>
 
-## Creating a project
+#### Description:
 
-If you're seeing this, you've probably already done this step. Congrats!
+This project gives users the ability to encode/decode messages within images, in such a manner that the presence of such messages is not evident to human inspection.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+In order to achieve this, each character of the message is first encoded in UTF-32, which uses 32 bits. However, since the 11 leading bits are always zero in this encoding, we just end up using 21 bits total for each character.
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+Then, these bits are set as the least significant bit of the image's RGB color values. And because we only touch the least significant bit, the resulting image looks, to the human eye, pretty much identical to the original one.
 
-## Developing
+Because we use 21 bits for each character, and because each pixel has 3 color values, we need 7 pixels to encode a single character. I explored the possibility of also leveraging the alpha channel to hide bits, but this resulted in some really tricky technical issues because of the way in which the PNG format and the HTML canvas work. I would like to dig deeper into that issue eventually, but for now, I decided to just ignore it.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+I also encode a null character (NUL) to let the decoding algorithm know where the message ends.
 
-```bash
-npm run dev
+Also, for this project I decided to use the same base image for every encoding operation (the classic CS50 cat), but an obvious enhancement would be to allow users to input their own base image.
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+#### Example
 
-## Building
+Let's say we want to encode the following emoji: 🧁
 
-To create a production version of your app:
+First, we compute its 21-bit UTF-32 representation: 000011111100111000001
 
-```bash
-npm run build
-```
+In order to improve visualization, let's split it in groups of 3: 000 011 111 100 111 000 001
 
-You can preview the production build with `npm run preview`.
+Now let's say the first pixel has an RGB value of 0xffffff. In order to encode 000, we set each of the corresponding color bytes' least significant bits to 0, resulting in 0xfefefe.
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+Now let's say the second pixel has an RGB value of 0x000000. After encoding 011, we get 0x000101.
+
+After doing the same thing for each of the other 5 groups of bits, we end up by encoding the null character (000000000000000000000, 21 zeros) in the next 7 pixels of the image.
+
+And that's pretty much it when it comes to encoding.
+
+Decoding does something similar but in reverse, it extracts the least significant bits of each pixel color until it finds the null character.
+
+#### Tech stack:
+
+Languages: HTML5, CSS3, TypeScript
+
+Web framework: SvelteKit
+
+Hosting service provider: Netlify
