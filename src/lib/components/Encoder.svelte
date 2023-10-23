@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { saveAs } from 'file-saver';
-	import { conceal } from '$lib';
+	import { encode } from '$lib';
 
 	const canvasWidth = 300;
 	const canvasHeight = 300;
@@ -29,7 +29,7 @@
 
 	function handleSubmit() {
 		if (context === null || offscreenContext === null) return;
-		const imageData = conceal(message, offscreenContext);
+		const imageData = encode(message, offscreenContext);
 		if (imageData === null) return;
 		context.putImageData(imageData, 0, 0);
 		encoded = true;
@@ -53,7 +53,7 @@
 				disabled={formDisabled}
 				required
 			/>
-			<button type="submit" class="variant-soft-primary" disabled={formDisabled}>Conceal</button>
+			<button type="submit" class="variant-soft-primary" disabled={formDisabled}>Encode</button>
 		</div>
 	</form>
 	<div

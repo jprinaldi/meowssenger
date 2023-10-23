@@ -1,6 +1,6 @@
 import { bitsPerChar, maxMessageLength } from '$lib/config';
 
-export function conceal(
+export function encode(
 	message: string,
 	context: OffscreenCanvasRenderingContext2D
 ): ImageData | null {
@@ -41,7 +41,7 @@ export function conceal(
 	return imageData;
 }
 
-export function reveal(imageData: ImageData): string {
+export function decode(imageData: ImageData): string {
 	const data = imageData.data;
 	const codePointArray = [];
 	for (let i = 0; i < maxMessageLength; i += 1) {

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { FileButton } from '@skeletonlabs/skeleton';
-	import { reveal } from '$lib';
+	import { decode } from '$lib';
 
 	let imageFiles: FileList;
 	let offscreenContext: OffscreenCanvasRenderingContext2D | null;
@@ -18,7 +18,7 @@
 			offscreenContext.canvas.width,
 			offscreenContext.canvas.height
 		);
-		message = reveal(imageData);
+		message = decode(imageData);
 	}
 </script>
 
