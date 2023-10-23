@@ -5,7 +5,7 @@ export function encode(
 	context: OffscreenCanvasRenderingContext2D
 ): ImageData | null {
 	if (message.length === 0) {
-		throw new Error('Message is empty');
+		throw new Error('Message cannot be empty');
 	}
 
 	if (message.length > maxMessageLength) {
@@ -16,13 +16,7 @@ export function encode(
 		throw new Error('Context is null');
 	}
 
-	const maxMessageBitsLength = 3 * context.canvas.width * context.canvas.height - bitsPerChar;
 	const bits = messageToBits(message);
-
-	if (bits.length > maxMessageBitsLength) {
-		return null;
-	}
-
 	const imageData = context.getImageData(0, 0, context.canvas.width, context.canvas.height);
 	const data = imageData.data;
 

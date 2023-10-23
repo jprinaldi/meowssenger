@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { saveAs } from 'file-saver';
+	import type { ToastSettings } from '@skeletonlabs/skeleton';
+	import { getToastStore } from '@skeletonlabs/skeleton';
+
+	const toastStore = getToastStore();
 	import { encode } from '$lib';
 
 	const canvasWidth = 300;
@@ -29,10 +33,20 @@
 
 	function handleSubmit() {
 		if (context === null || offscreenContext === null) return;
-		const imageData = encode(message, offscreenContext);
-		if (imageData === null) return;
-		context.putImageData(imageData, 0, 0);
-		encoded = true;
+		try {
+			const imageData = encode(message, offscreenContext);
+			if (imageData === null) return;
+			context.putImageData(imageData, 0, 0);
+			encoded = true;
+		} catch (e: unknown) {
+			if (e instanceof Error) {
+				const t: ToastSettings = {
+					message: e.message,
+					background: 'variant-filled-error'
+				};
+				toastStore.trigger(t);
+			}
+		}
 	}
 
 	function save() {
