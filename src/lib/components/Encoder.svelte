@@ -3,6 +3,7 @@
 	import { saveAs } from 'file-saver';
 	import type { ToastSettings } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
+	import { maxMessageLength } from '$lib/config';
 
 	const toastStore = getToastStore();
 	import { encode } from '$lib';
@@ -66,6 +67,7 @@
 				bind:value={message}
 				disabled={formDisabled}
 				required
+				maxlength={maxMessageLength}
 			/>
 			<button type="submit" class="variant-soft-primary" disabled={formDisabled}>Encode</button>
 		</div>
