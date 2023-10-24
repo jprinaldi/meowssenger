@@ -16,7 +16,7 @@ I also encode a null character (NUL) to let the decoding algorithm know where th
 
 Also, for this project I decided to use the same base image for every encoding operation (the classic CS50 cat), but an obvious enhancement would be to allow users to input their own base image.
 
-#### Example
+#### Example:
 
 Let's say we want to encode the following emoji: 🧁
 
@@ -34,10 +34,26 @@ And that's pretty much it when it comes to encoding.
 
 Decoding does something similar but in reverse, it extracts the least significant bits of each pixel color until it finds the null character.
 
+#### Project Structure:
+
+The project was built using SvelteKit, so there are a lot of files that make this web app work, but the key files are the ones inside src/lib and src/routes.
+
+The src/lib/cipher.ts file contains the main application logic, including the functions to encode and decode messages.
+
+The src/lib/config.ts file contains some configuration constants.
+
+The src/lib/components directory contains the encoder and decoder UI components.
+
+The src/routes directory contains the app routes and main layout.
+
 #### Tech stack:
 
 Languages: HTML5, CSS3, TypeScript
 
 Web framework: SvelteKit
+
+UI framework: Skeleton
+
+CSS framework: Tailwind CSS
 
 Hosting service provider: Netlify
